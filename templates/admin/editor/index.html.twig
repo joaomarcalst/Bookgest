@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editors List{% endblock %}
+
+{% block body %}
+    </br>
+    <div class="w-50 mx-auto">
+        <h1>Editors List</h1>
+        <p>Acess "Create New" to add a New Editor</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for editor in editors %}
+                    <tr>
+                        <td>{{ editor.name }}</td>
+                        <td>
+                            <a class="btn btn-outline-primary" href="{{ path('app_admin_editor_show', {'id': editor.id}) }}">Show</a>
+                            <a class="btn btn-outline-warning" href="{{ path('app_admin_editor_edit', {'id': editor.id}) }}">Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn btn-outline-success" href="{{ path('app_admin_editor_new') }}">Create New</a>
+    </div>
+    </br>
+{% endblock %}
+

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add the Author{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Add the Author</h1>
+    <p>Fill the form to add a new author</p>
+
+    {{ form_start(author_form) }}
+    {{ form_widget(author_form) }}
+    <br/>
+    <input class="btn btn-dark" type="submit" value="Submit">
+    {{ form_end(author_form) }}
+
+</div>
+{% endblock %}

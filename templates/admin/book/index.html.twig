@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book index{% endblock %}
+
+{% block body %}
+	<div class="w-50 mx-auto">
+		</br>
+        <h1>Book Index</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Title</th>
+					<th>ISBN</th>
+					<th>Cover</th>
+					<th>Edited At</th>
+					<th>Plot</th>
+					<th>Page Number</th>
+					<th>Status</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for book in books %}
+					<tr>
+						<td>{{ book.id }}</td>
+						<td>{{ book.title }}</td>
+						<td>{{ book.isbn }}</td>
+						<td>{{ book.cover }}</td>
+						<td>{{ book.editedAt ? book.editedAt|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ book.plot }}</td>
+						<td>{{ book.pageNumber }}</td>
+						<td>{{ book.status }}</td>
+						<td>
+							<a class="btn btn-outline-primary" href="{{ path('app_admin_book_show', {'id': book.id}) }}">Show</a>
+							<a class="btn btn-outline-warning" href="{{ path('app_admin_book_edit', {'id': book.id}) }}">Edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="9">Any Books in Database</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<a class="btn btn-outline-success" href="{{ path('app_admin_book_new') }}">Create new</a>
+	</div>
+    </br>
+{% endblock %}
+

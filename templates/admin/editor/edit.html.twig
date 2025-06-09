@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Editor{% endblock %}
+
+{% block body %}
+    <div class="w-50 mx-auto">
+        </br>
+        <h1>Edit Editor</h1>
+        <p>Fill the form to edit the editor</p>
+        {{ include('admin/editor/_form.html.twig', {'button_label': 'Update'}) }}
+        </br/>
+        <a class="btn btn-outline-dark" href="{{ path('app_admin_editor_index') }}">Back to List</a>
+        {{ include('admin/editor/_delete_form.html.twig') }}
+    </div>
+    </br>
+{% endblock %}

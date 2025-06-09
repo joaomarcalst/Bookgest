@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <!-- Header-->
+    <header class="bg-primary bg-gradient text-white">
+        <div class="container px-4 text-center">
+            <h1 class="fw-bolder">Bibliogest</h1>
+            <p class="lead">Online catalog of the Saint-Ouen media library</p>
+            <a class="btn btn-lg btn-light" href="#">Browse the catalog</a>
+        </div>
+    </header>
+    <!-- About section-->
+    <section >
+        <div class="container px-4">
+            <div class="row gx-4 justify-content-center">
+                <div class="col-lg-8">
+                    <h2>Bibliogest: what is it?</h2>
+                    <p class="lead">Bibliogest is the official platform for consulting the Saint-Ouen media library catalog. Explore our collection with a powerful search, check book availability in real time, and easily place reservations. Bibliogest is committed to facilitating access to culture and promoting the richness of our literary heritage.</p>
+                    <p>Key Features:</p>
+                    <ul>
+                        <li>Advanced book search</li>
+                        <li>Real-time consultation of the status of works (available, borrowed, unavailable)</li>
+                        <li>Detailed display of book information</li>
+                        <li>Simplified booking process</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

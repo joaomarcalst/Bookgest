@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des auteurs{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Liste d'Auteurs</h1>
+        <div class="row">
+            {% for author in authors %}
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ author.name }}</h5>
+                            <p class="card-text">ID : {{ author.id }}</p>
+                            <a href="{{ path('app_admin_author_show', {id: author.id}) }}" class="btn btn-primary">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p>Aucun auteur trouvé.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
