@@ -20,7 +20,14 @@ class BookType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('isbn')
+            ->add('isbn', null, [
+                'constraints' => [
+                    new Assert\Isbn([
+                        'type' => null,
+                        'message' => 'Ce champ doit contenir un numéro ISBN valide.'
+                    ])
+                ]
+            ])
             ->add('cover')
             ->add('pageNumber', null, [
                 'label' => 'Number of Pages',

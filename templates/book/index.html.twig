@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Livres{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Liste des Livres</h1>
+    <div class="row">
+        {% for book in books %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text"><strong>Auteur:</strong> {{ book.author.name }}</p>
+                        <p class="card-text"><strong>Éditeur:</strong> {{ book.editor.name }}</p>
+                        <p class="card-text"><strong>Date de publication:</strong> {{ book.publicationDate|date('d/m/Y') }}</p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun livre trouvé.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

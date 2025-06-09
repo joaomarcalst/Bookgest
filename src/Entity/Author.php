@@ -115,4 +115,9 @@ class Author
         $this->books->removeElement($book);
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

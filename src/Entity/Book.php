@@ -6,50 +6,53 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Book
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private ?int $id = null;
+    public ?int $id = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
-    private string $title;
+    private ?string $title = '';
 
-    #[Assert\NotBlank]
-    #[Assert\Isbn(type: 'isbn13', message: 'Ce champ doit contenir un numéro ISBN valide.')]
-    #[ORM\Column(length: 255)]
-    private string $isbn;
+    #[Assert\Length(min: 10, max: 13)]
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $isbn = null;
 
-    #[Assert\NotBlank]
     #[Assert\Url(message: 'Ce champ doit contenir une URL valide.')]
-    #[ORM\Column(length: 255)]
-    private string $cover;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cover = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $editedAt;
 
-    #[Assert\NotBlank]
     #[Assert\Length(min: 10)]
-    #[ORM\Column(type: 'text')]
-    private string $plot;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $plot = null;
 
-    #[Assert\NotBlank]
     #[Assert\Positive]
-    #[ORM\Column(type: 'integer')]
-    private int $pageNumber;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $pageNumber = null;
 
-    #[Assert\NotBlank]
-    #[ORM\Column(length: 255)]
-    private string $status;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: Editor::class, inversedBy: 'books')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Editor $editor = null;
 
     #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'books')]
@@ -57,6 +60,10 @@ class Book
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: Comment::class, cascade: ['persist', 'remove'])]
     private Collection $comments;
+
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $slug = null;
+
 
     public function __construct()
     {
@@ -71,34 +78,34 @@ class Book
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
-        $this->title = $title;
+        $this->title = $title ?? '';
         return $this;
     }
 
-    public function getIsbn(): string
+    public function getIsbn(): ?string
     {
         return $this->isbn;
     }
 
-    public function setIsbn(string $isbn): self
+    public function setIsbn(?string $isbn): self
     {
         $this->isbn = $isbn;
         return $this;
     }
 
-    public function getCover(): string
+    public function getCover(): ?string
     {
         return $this->cover;
     }
 
-    public function setCover(string $cover): self
+    public function setCover(?string $cover): self
     {
         $this->cover = $cover;
         return $this;
@@ -115,34 +122,34 @@ class Book
         return $this;
     }
 
-    public function getPlot(): string
+    public function getPlot(): ?string
     {
         return $this->plot;
     }
 
-    public function setPlot(string $plot): self
+    public function setPlot(?string $plot): self
     {
         $this->plot = $plot;
         return $this;
     }
 
-    public function getPageNumber(): int
+    public function getPageNumber(): ?int
     {
         return $this->pageNumber;
     }
 
-    public function setPageNumber(int $pageNumber): self
+    public function setPageNumber(?int $pageNumber): self
     {
         $this->pageNumber = $pageNumber;
         return $this;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
         return $this;
@@ -208,6 +215,28 @@ class Book
             }
         }
 
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
         return $this;
     }
 }
